@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Model Embed</title>
-    <!-- Load TensorFlow.js -->
+    <title>AI Model Demo</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
 </head>
 <body>
@@ -15,7 +14,6 @@
     <script>
         async function loadModel() {
             try {
-                // Path to the model.json hosted on GitHub
                 const MODEL_URL = 'https://raw.githubusercontent.com/Vishesh-R/Vehicle-Identifier/main/model.json';
 
                 // Load the TensorFlow.js model
@@ -24,20 +22,23 @@
 
                 document.getElementById('output').innerText = 'Model Loaded Successfully!';
 
-                // Example prediction (replace with appropriate input for your model)
-                const inputTensor = tf.tensor([[1, 224, 224, 3]]); // Adjust shape as needed
+                // Example prediction (adjust input shape)
+                const inputTensor = tf.tensor([[1, 2, 3, 4]]);
                 const prediction = model.predict(inputTensor);
+                prediction.print();
 
-                prediction.print(); // Log the prediction
                 document.getElementById('output').innerText = 'Prediction made successfully!';
-
             } catch (err) {
                 console.error('Error loading or running the model:', err);
-                document.getElementById('output').innerText = 'Failed to load model. Check console for details.';
+                document.getElementById('output').innerText = 'Failed to load model.';
             }
         }
 
-        loadModel();
+        // Force CPU backend
+        tf.setBackend('cpu').then(() => {
+            console.log('Using CPU backend');
+            loadModel();
+        });
     </script>
 </body>
 </html>
