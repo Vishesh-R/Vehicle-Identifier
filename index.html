@@ -15,7 +15,7 @@
     <script>
         async function loadModel() {
             try {
-                const MODEL_URL = 'https://github.com/Vishesh-R/Vehicle-Identifier/blob/57096ebe39bd9c4e79989ae374eb5dadf598d33c/model.json'; // Update this with the actual link
+                const MODEL_URL = 'https://raw.githubusercontent.com/Vishesh-R/Vehicle-Identifier/main/model.json'; // Update this with the actual link
                 const model = await tf.loadGraphModel(MODEL_URL);
 
                 document.getElementById('output').innerText = 'Model Loaded Successfully!';
