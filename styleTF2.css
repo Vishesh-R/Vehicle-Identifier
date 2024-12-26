@@ -3,6 +3,11 @@
 }
 
 body{
+    background-image: url(./images2.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
     text-align: center;
     display: block;
     margin: 0px;
