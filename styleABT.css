@@ -2,7 +2,7 @@
     margin: 0px;
 }
 body{
-    background-image: url(images3.jpg);
+    background-image: url(./images3.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
