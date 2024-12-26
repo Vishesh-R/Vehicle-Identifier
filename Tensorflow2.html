@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Model Input</title>
+    <link rel="stylesheet" href="styleTF2.css">
+    <link rel="icon" type="images/jpg" href="favicon.JPG">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <ul id="navbarlist">
+                <li id="nbl1"><a href="index.html"><b>Home</b></a></li>
+                <li id="nbl2"><a href="index.html#predict"><b>Predict</b></a></li>
+                <li id="nbl3"><a href="about.html"><b>About us</b></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <br>
+        <h1 id="title">Predict Using Upload</h1>
+        <button id="buttonTF21" type="button" onclick="uploadImage(), fixTitle()"><b>Upload Image</b></button>
+        <br>
+        <input type="file" id="image-upload" style="display:none;" accept="image/*" onchange="handleImageUpload(event)">
+        <br>
+        <button id="totop" onclick="scrollToTop()"><img id="Arrow1" src="Arrow.png" height="30px"></button>
+        <a href="">
+            <button id="reload"><img id="Arrow2" src="Reload-arrow.png" height="30px"></button>
+        </a>
+        <div id="image-container"></div>
+        <div id="label-container"></div>
+
+        <script type="text/javascript">
+            const URL = "./";
+            let model, labelContainer, maxPredictions;
+
+            // Load the model
+            async function loadModel() {
+                const modelURL = URL + "model.json";
+                const metadataURL = URL + "metadata.json";
+                model = await tmImage.load(modelURL, metadataURL);
+                maxPredictions = model.getTotalClasses();
+            }
+
+            // Handle image upload
+            async function uploadImage() {
+                await loadModel();
+                document.getElementById('image-upload').click();
+            }
+
+            function handleImageUpload(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = async function (e) {
+                        const imgElement = document.createElement("img");
+                        imgElement.src = e.target.result;
+                        imgElement.height = 224;
+                        imgElement.width = 224;
+                        let imgDisp = imgElement;
+                        imgDisp.height = 300;
+                        imgDisp.style.width = "auto";
+
+                        const imageContainer = document.getElementById("image-container");
+                        clearContainer();
+                        imageContainer.appendChild(imgDisp);
+
+                        const prediction = await model.predict(imgElement);
+                        updateLabels(prediction)
+                        console.log(prediction);;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            // Update predictions
+            function updateLabels(predictions) {
+                labelContainer = document.getElementById("label-container");
+                labelContainer.innerHTML = ""; // Clear previous labels
+                for (let i = 0; i < predictions.length; i++) {
+                    const classPrediction =
+                        predictions[i].className + "  :  " + (predictions[i].probability.toFixed(3))*100 + "%";
+                    labelContainer.appendChild(document.createElement("div")).innerHTML = classPrediction;
+                }
+            }
+
+            // Utility function to clear containers
+            function clearContainer() {
+                document.getElementById("image-container").innerHTML = "";
+                document.getElementById("image-container").style = "none";
+                document.getElementById("image-upload").innerText = "Upload another image";
+            }
+
+            function scrollToTop() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function fixTitle(){
+                const title = document.getElementById("title");
+                title.style.marginTop = "0px";
+                const main = document.getElementById("main");
+                main.style.height = "auto";
+            }
+
+        </script>
+    </main> 
+    <footer id="footer">
+        <div id="footerdiv">
+            <br>
+            <br>
+            <h3>Navigation</h3>
+            <a href="index.html">Home Page</a><br>
+            <a href="index.html#predict">Test Model</a><br>
+            <a href="about.html">About Us</a><br>
+        </div>
+    </footer>
+</body>
+</html>
