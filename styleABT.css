@@ -1,8 +1,9 @@
 *{
+    box-sizing: content-box;
     margin: 0px;
 }
 body{
-    background-image: url(./images3.jpg);
+    background-image: url(images3.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -77,11 +78,6 @@ section{
     text-align: left;
 }
 
-.team pre{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size: 15px;
-}
-
 .team h1{
     display: inline-flex;
     font-size: 50px;
@@ -100,13 +96,14 @@ section{
 }
 
 .team img{
-    display: inline-block;
+    display: none;
     width: 90px;
 }
 
 .team pre{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     margin-bottom: 20px;
+    font-size: 18px;
 }
 
 footer{
@@ -129,7 +126,7 @@ footer{
     .team{
         text-align: center;
         margin: auto;
-        margin-top: 27vh;
+        margin-top: calc(50vh - 130px);
     }
     footer{
         display:block;
