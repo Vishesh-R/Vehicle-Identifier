@@ -87,12 +87,30 @@
             function updateLabels(predictions) {
                 labelContainer = document.getElementById("label-container");
                 labelContainer.innerHTML = ""; // Clear previous labels
+
                 for (let i = 0; i < predictions.length; i++) {
-                    const classPrediction =
-                        predictions[i].className + "  :  " + (predictions[i].probability.toFixed(3))*1000/10 + "%";
-                    labelContainer.appendChild(document.createElement("div")).innerHTML = classPrediction;
+                    const probabilityPercentage = (predictions[i].probability.toFixed(3) * 1000) / 10; // Convert to percentage
+                    const classPrediction = predictions[i].className + "  :  " + probabilityPercentage + "%";
+                    const labelDiv = document.createElement("div");
+                    labelDiv.innerHTML = classPrediction;
+
+                    // Debugging: Log probability and comparisons
+                    console.log("Class:", predictions[i].className);
+                    console.log("Probability:", predictions[i].probability);
+                    console.log("Condition:", predictions[i].probability > 0.05);
+
+                    // Set opacity based on the probability
+                    if (predictions[i].probability > 0.1) {
+                        labelDiv.style.opacity = predictions[i].probability+0.75; // Opacity directly reflects probability
+                    } else {
+                        labelDiv.style.opacity = 0.2; // Minimum opacity for very low probabilities
+                    }
+
+                    // Add the div to the label container
+                    labelContainer.appendChild(labelDiv);
                 }
             }
+
 
             // Utility function to clear containers
             function clearContainer() {
