@@ -74,14 +74,33 @@
     
             // run the webcam image through the image model
             async function predict() {
-                // predict can take in an image, video or canvas html element
-                const prediction = await model.predict(webcam.canvas);
-                for (let i = 0; i < maxPredictions; i++) {
-                    const classPrediction =
-                        prediction[i].className + "  :  " + (prediction[i].probability.toFixed(3))*1000/10 + "%";
-                    labelContainer.childNodes[i].innerHTML = classPrediction;
+                // Predict takes in an image, video, or canvas HTML element
+                const predictions = await model.predict(webcam.canvas);
+
+                // Clear and recreate label-container divs
+                labelContainer.innerHTML = ""; // Clear previous labels
+                for (let i = 0; i < predictions.length; i++) {
+                    const probabilityPercentage = (predictions[i].probability.toFixed(3) * 1000) / 10; // Convert to percentage
+                    const classPrediction = predictions[i].className + "  :  " + probabilityPercentage + "%";
+
+                    const labelDiv = document.createElement("div");
+                    labelDiv.innerHTML = classPrediction;
+
+                    // Debugging: Log probabilities and conditions
+                    console.log("Class:", predictions[i].className);
+                    console.log("Probability:", predictions[i].probability);
+
+                    // Set opacity based on the probability (ensure it's between 0 and 1)
+                    if (predictions[i].probability > 0.1) {
+                        labelDiv.style.opacity = predictions[i].probability; // Use probability as opacity
+                    } else {
+                        labelDiv.style.opacity = 0.2; // Minimum opacity for very low probabilities
+                    }
+
+                    labelContainer.appendChild(labelDiv);
                 }
             }
+
 
             function setMainMargin(){
                 const main = document.getElementById('main');
