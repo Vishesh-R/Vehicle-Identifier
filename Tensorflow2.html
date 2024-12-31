@@ -94,11 +94,6 @@
                     const labelDiv = document.createElement("div");
                     labelDiv.innerHTML = classPrediction;
 
-                    // Debugging: Log probability and comparisons
-                    console.log("Class:", predictions[i].className);
-                    console.log("Probability:", predictions[i].probability);
-                    console.log("Condition:", predictions[i].probability > 0.05);
-
                     // Set opacity based on the probability
                     if (predictions[i].probability > 0.1) {
                         labelDiv.style.opacity = predictions[i].probability+0.75; // Opacity directly reflects probability
