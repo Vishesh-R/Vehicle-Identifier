@@ -94,13 +94,13 @@
                     const labelDiv = document.createElement("div");
                     labelDiv.innerHTML = classPrediction;
 
+                    labelDiv.style.opacity = 0.2; // Minimum opacity for very low probabilities
+                    
                     // Set opacity based on the probability
                     if (predictions[i].probability > 0.1) {
                         labelDiv.style.opacity = predictions[i].probability+0.75; // Opacity directly reflects probability
-                    } else {
-                        labelDiv.style.opacity = 0.2; // Minimum opacity for very low probabilities
                     }
-
+                                      
                     // Add the div to the label container
                     labelContainer.appendChild(labelDiv);
                 }
