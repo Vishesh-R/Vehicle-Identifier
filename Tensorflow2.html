@@ -76,7 +76,7 @@
                             const prediction = await model.predict(imgElement);
                             updateLabels(prediction);
                             //console.log(prediction);
-                            await delay(1000);
+                            await delay(200);
                         }
                     };
                     reader.readAsDataURL(file);
