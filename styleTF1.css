@@ -6,7 +6,7 @@ body{
     text-align: center;
     display: block;
     margin: 0px;
-    background-image: url(/images4.jpg);
+    background-image: url(./images4.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
