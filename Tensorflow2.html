@@ -51,6 +51,10 @@
                 document.getElementById('image-upload').click();
             }
 
+            function delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
             function handleImageUpload(event) {
                 const file = event.target.files[0];
                 if (file) {
@@ -58,8 +62,8 @@
                     reader.onload = async function (e) {
                         const imgElement = document.createElement("img");
                         imgElement.src = e.target.result;
-                        imgElement.height = 224;
-                        imgElement.width = 224;
+                        imgElement.height = 100;
+                        imgElement.width = 100;
                         let imgDisp = imgElement;
                         imgDisp.height = 300;
                         imgDisp.style.width = "auto";
@@ -68,9 +72,12 @@
                         clearContainer();
                         imageContainer.appendChild(imgDisp);
 
-                        const prediction = await model.predict(imgElement);
-                        updateLabels(prediction)
-                        console.log(prediction);;
+                        while(true) {
+                            const prediction = await model.predict(imgElement);
+                            updateLabels(prediction);
+                            //console.log(prediction);
+                            await delay(500);
+                        }
                     };
                     reader.readAsDataURL(file);
                 }
@@ -82,7 +89,7 @@
                 labelContainer.innerHTML = ""; // Clear previous labels
                 for (let i = 0; i < predictions.length; i++) {
                     const classPrediction =
-                        predictions[i].className + "  :  " + (predictions[i].probability.toFixed(3))*100 + "%";
+                        predictions[i].className + "  :  " + (predictions[i].probability.toFixed(3))*1000/10 + "%";
                     labelContainer.appendChild(document.createElement("div")).innerHTML = classPrediction;
                 }
             }
