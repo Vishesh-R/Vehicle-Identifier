@@ -146,6 +146,7 @@ main{
 }
 
 footer{
+    margin-top: 100vh;
     position: static;
     display: inline-block;
     height: 200px;
@@ -178,4 +179,5 @@ footer{
         margin-top: 15vh;
     }
 }
+
 
